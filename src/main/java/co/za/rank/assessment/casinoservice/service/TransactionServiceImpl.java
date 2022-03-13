@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionList;
     }
 
+    @Transactional
     @Override
     public TransactionDTO transact(Long playerId,Long transactionId, BigDecimal amount,
                                    TransactionType transactionType) {
