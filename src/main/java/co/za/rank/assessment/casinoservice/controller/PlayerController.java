@@ -22,9 +22,10 @@ public class PlayerController {
     final PlayerService playerService;
 
     @GetMapping("/{playerId}")
-    public ResponseEntity<PlayerDTO> getPlayer(@PathVariable Long playerId) {
+    @ResponseStatus(HttpStatus.OK)
+    public PlayerDTO getPlayer(@PathVariable Long playerId) {
         final Optional<PlayerDTO> player = playerService.getPlayer(playerId);
-        return new ResponseEntity<PlayerDTO>(player.get(), HttpStatus.OK);
+        return player.get();
 
     }
 

@@ -22,21 +22,22 @@ public class TransactionController {
 
     final TransactionService transactionService;
 
-    @GetMapping("/{playerId}")
+    @GetMapping("/top10/{playerId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<TransactionDTO> getPlayerTransactions(@PathVariable Long playerId) {
+    public List<TransactionDTO> getPlayerTop10Transactions(@PathVariable Long playerId) {
 
-        final List<TransactionDTO> playerTransactions = transactionService.getPlayerTransactions(playerId);
+        final List<TransactionDTO> playerTransactions = transactionService.getTop10TransactionByPlayer(playerId);
         return playerTransactions;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void transact(@RequestParam Long playerId,
+                         @RequestParam Long transactionId,
                          @RequestParam BigDecimal amount,
                          @RequestParam TransactionType transactionType) {
 
-        transactionService.transact(playerId,amount,transactionType);
+        transactionService.transact(playerId,transactionId,amount,transactionType);
 
     }
 }

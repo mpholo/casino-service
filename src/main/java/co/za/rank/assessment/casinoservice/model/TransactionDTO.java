@@ -4,9 +4,11 @@ import co.za.rank.assessment.casinoservice.domain.Player;
 import co.za.rank.assessment.casinoservice.domain.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author : Mpholo Leboea
@@ -25,7 +27,8 @@ public class TransactionDTO {
     private Long transactionId;
     private BigDecimal amount;
     private TransactionType type;
-  @JsonIgnore
+    private Date creationDate;
+    @JsonIgnore
     private Player player;
 
 }

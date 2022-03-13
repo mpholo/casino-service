@@ -14,7 +14,9 @@ import java.util.List;
 
 public interface TransactionService {
 
-    List<TransactionDTO> getPlayerTransactions(Long playerId);
-    TransactionDTO transact(Long playerId,BigDecimal amount, TransactionType transactionType);
+    TransactionDTO transact(Long playerId,Long transactionId, BigDecimal amount,
+                            TransactionType transactionType);
+    List<TransactionDTO> getTop10TransactionByPlayer(Long playerId);
+
 
 }

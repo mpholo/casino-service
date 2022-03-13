@@ -34,12 +34,12 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public List<TransactionDTO> getPlayerTransactions(Long playerId) {
+    public List<TransactionDTO> getTop10TransactionByPlayer(Long playerId) {
         final Optional<PlayerDTO> playerDTO = playerService.getPlayer(playerId);
         Player player = playerMapper.PlayerDTOToPlayer(playerDTO.get());
 
         final List<Transaction> transactions = transactionRepository
-                .findByPlayer(player);
+                .findTop10ByPlayerEqualsOrderByCreationDateDesc(player);
 
         final List<TransactionDTO> transactionList = transactions.stream()
                 .map(transactionMapper::transactionToTransactionDTO)
@@ -49,14 +49,19 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDTO transact(Long playerId, BigDecimal amount, TransactionType transactionType) {
-
+    public TransactionDTO transact(Long playerId,Long transactionId, BigDecimal amount,
+                                   TransactionType transactionType) {
 
         final Optional<PlayerDTO> player = playerService.getPlayer(playerId);
+        final Optional<Transaction> searchedTransaction = transactionRepository.findById(transactionId);
 
+        if(!searchedTransaction.isEmpty()) {
+            throw new RuntimeException("Transaction already exists");
+        }
         final PlayerDTO playerDTO = player.get();
         final TransactionDTO newTran = new TransactionDTO();
         BigDecimal result = new BigDecimal(0);
+        newTran.setTransactionId(transactionId);
         newTran.setAmount(amount);
         switch (transactionType) {
             case DEDUCT:

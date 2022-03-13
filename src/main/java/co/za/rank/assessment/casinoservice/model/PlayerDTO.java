@@ -22,7 +22,7 @@ public class PlayerDTO {
 
     private Long playerId;
     private BigDecimal balance;
-    @ToString.Exclude
+    @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
 
 }

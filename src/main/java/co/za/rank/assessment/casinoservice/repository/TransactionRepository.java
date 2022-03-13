@@ -12,5 +12,5 @@ import java.util.List;
  **/
 public interface TransactionRepository extends CrudRepository<Transaction,Long> {
 
-    List<Transaction> findByPlayer(Player player);
+    List<Transaction> findTop10ByPlayerEqualsOrderByCreationDateDesc(Player player);
 }
