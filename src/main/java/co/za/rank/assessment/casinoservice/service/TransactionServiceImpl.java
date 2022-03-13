@@ -57,7 +57,10 @@ public class TransactionServiceImpl implements TransactionService {
 
         if(!searchedTransaction.isEmpty()) {
             throw new RuntimeException("Transaction already exists");
+        } else if( transactionType.equals(TransactionType.DEDUCT) && player.get().getBalance().compareTo(amount)<0) {
+            throw new RuntimeException("teapot(418)");
         }
+
         final PlayerDTO playerDTO = player.get();
         final TransactionDTO newTran = new TransactionDTO();
         BigDecimal result = new BigDecimal(0);
