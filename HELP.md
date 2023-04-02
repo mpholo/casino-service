@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'co.za.rank.assessment.casino-service' is invalid and this project uses 'co.za.rank.assessment.casinoservice' instead.
+* The original package name 'co.za.mpholo.assessment.casino-service' is invalid and this project uses 'co.za.mpholo.assessment.casinoservice' instead.
 
 # Getting Started
 
