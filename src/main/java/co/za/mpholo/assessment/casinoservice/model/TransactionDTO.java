@@ -3,6 +3,7 @@ package co.za.mpholo.assessment.casinoservice.model;
 import co.za.mpholo.assessment.casinoservice.domain.Player;
 import co.za.mpholo.assessment.casinoservice.domain.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -22,6 +23,7 @@ import java.util.Date;
 public class TransactionDTO {
 
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long transactionId;
     private BigDecimal amount;
     private TransactionType type;

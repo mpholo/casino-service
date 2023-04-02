@@ -16,8 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
+import static org.springframework.http.HttpStatus.*;
 
 /**
  * Created by  : Mpholo Leboea on 2023/04/01
@@ -28,6 +27,7 @@ import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 public class ExceptionHandling extends ResponseEntityExceptionHandler {
 
     private static final String METHOD_IS_NOT_ALLOWED="This request method is not allowed on this endpoint. Please send a %s request";
+    private static final String INTERAL_SERVER_ERROR_MSG="An error occurred while processing the request";
     @ExceptionHandler(PlayerNotFoundException.class)
     public ResponseEntity<HttpResponse> playerNotFoundException(PlayerNotFoundException e) {
         return createHttpResponse(HttpStatus.NOT_FOUND,e.getMessage());
@@ -61,6 +61,13 @@ public class ExceptionHandling extends ResponseEntityExceptionHandler {
               });
 
       return new ResponseEntity<>(errors, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<HttpResponse> internalServerErrorException(Exception e) {
+        log.error(e.getMessage());
+        String message = e.getMessage()==null?INTERAL_SERVER_ERROR_MSG:e.getMessage();
+        return createHttpResponse(INTERNAL_SERVER_ERROR,message);
     }
 
 

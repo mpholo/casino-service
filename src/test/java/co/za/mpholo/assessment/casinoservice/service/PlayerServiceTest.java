@@ -92,7 +92,7 @@ class PlayerServiceTest {
     void insertPlayerThrowsException() {
         //given - precondition or setup
         given(playerRepository.findPlayerByEmail(anyString())).willReturn(Optional.of(player));
-        given(playerMapper.PlayerToPlayerDTO(player)).willReturn(playerDTO);
+
 
         //when - action or behaviour that we are going to test
         assertThrows(PlayerExistsException.class,()->{
@@ -106,9 +106,12 @@ class PlayerServiceTest {
     @Test
     void updatePlayer() {
         //given - precondition or setup
+        playerDTO.setFirstName("Thabiso");
         given(playerRepository.findById(player.getPlayerId())).willReturn(Optional.of(player));
         given(playerMapper.PlayerToPlayerDTO(player)).willReturn(playerDTO);
-        playerDTO.setFirstName("Thabiso");
+        given(playerMapper.PlayerDTOToPlayer(playerDTO)).willReturn(player);
+        given(playerRepository.save(player)).willReturn(player);
+
         //when - action or behaviour that we are going to test
         final PlayerDTO updatedPlayerDTO = playerService.updatePlayer(1L, playerDTO);
 

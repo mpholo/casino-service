@@ -13,7 +13,7 @@ import java.util.Date;
 
 
 @Entity
-@EqualsAndHashCode(exclude = {"player","type"})
+@EqualsAndHashCode(exclude = {"player"})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

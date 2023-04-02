@@ -7,8 +7,10 @@ import co.za.mpholo.assessment.casinoservice.model.PlayerDTO;
 import co.za.mpholo.assessment.casinoservice.repository.PlayerRepository;
 import co.za.mpholo.assessment.casinoservice.exception.PlayerNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.LockModeType;
 import java.util.Optional;
 
 /**
@@ -28,7 +30,7 @@ public class PlayerServiceImpl implements PlayerService {
     public Optional<PlayerDTO> getPlayerById(Long playerId) {
 
         final Optional<Player> player = playerRepository.findById(playerId);
-        if(!player.isPresent()) {
+        if(player.isEmpty()) {
             throw new PlayerNotFoundException("player id - "+playerId+" not found");
         }
         return Optional.of(mapper.PlayerToPlayerDTO(player.get()));
@@ -37,9 +39,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerDTO updatePlayer(Long playerId, PlayerDTO playerDTO) {
-        final Optional<PlayerDTO> player = getPlayerById(playerId);
+        getPlayerById(playerId);
         final Player updatedPlayer = mapper.PlayerDTOToPlayer(playerDTO);
-        updatedPlayer.setPlayerId(playerId);
         final Player savedPlayer = save(updatedPlayer);
         final PlayerDTO updatedPlayerDTO = mapper.PlayerToPlayerDTO(savedPlayer);
         return updatedPlayerDTO;

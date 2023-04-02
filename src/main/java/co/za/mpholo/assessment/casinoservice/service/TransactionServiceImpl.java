@@ -10,8 +10,10 @@ import co.za.mpholo.assessment.casinoservice.model.TransactionDTO;
 import co.za.mpholo.assessment.casinoservice.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.LockModeType;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
@@ -49,7 +51,7 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionList;
     }
 
-    @Transactional
+
     @Override
     public TransactionDTO transact(Long playerId,Long transactionId, BigDecimal amount,
                                    TransactionType transactionType) {
@@ -83,8 +85,8 @@ public class TransactionServiceImpl implements TransactionService {
                 assert false : "Invalid transaction";
         }
         playerDTO.setBalance(result);
-        playerService.insertPlayer(playerDTO);
         newTran.setPlayer(playerMapper.PlayerDTOToPlayer(playerDTO));
+        playerService.updatePlayer(playerId,playerDTO);
         final Transaction savedTransaction = transactionRepository
                 .save(transactionMapper.transactionDTOToTransaction(newTran));
         return transactionMapper.transactionToTransactionDTO(savedTransaction);
